@@ -1,5 +1,4 @@
 import sys
-import math
 
 def video_02_creating_meaningful_names_and_using_variables():
     # naming convention:
@@ -46,6 +45,8 @@ def video_03_working_with_large_and_small_integers():
     int4 = 2 ** 2048
     print("int4 =", int4)
 
+    import math
+
     # 52 factorial
     print("52! =", math.factorial(52))
 
@@ -84,8 +85,99 @@ def video_03_working_with_large_and_small_integers():
     # get 6 least significant bits in a 8-bit number
     print("bin(composite_byte & bottom_6_mask) =", bin(composite_byte & bottom_6_mask))
 
+def video_04_choosing_between_float_decimal_and_fraction():
+    # When working with currencies, use Decimal, not built-in float as
+    # the latter has problems with rounding and truncations.
+    # decimal module provides support for decimal floating point arithmetic
+    # https://docs.python.org/2/library/decimal.html
+    from decimal import Decimal
+    # Decimal instances can be constructed from integers, strings, floats, or tuples.
+    tax_rate = Decimal('7.25')/Decimal(100)
+    purchase_amount = Decimal('2.95')
+    val1 = tax_rate * purchase_amount
+    print("tax_rate * purchase_amount = ", val1)
+
+    # Avoid mixing Decimal and floating point variables
+    f_tax_rate = 7.25/100
+    f_purchase_amount = 2.95
+    f_val1 = f_tax_rate * f_purchase_amount
+    print("f_tax_rate * f_purchase_amount = ", f_val1)
+
+    penny = Decimal('0.01')
+    total_amount = purchase_amount + tax_rate * purchase_amount
+    print("total_amount = ", total_amount)
+
+    #  quantize() method rounds a number to a fixed exponent
+    print("total_amount.quantize(penny) = ", total_amount.quantize(penny))
+
+    # We can set different rounding rule
+    import decimal
+    print("total_amount.quantize(penny, decimal.ROUND_UP) = ",
+          total_amount.quantize(penny, decimal.ROUND_UP))
+
+    # For fractions/rationsal numbers, use fractions module.
+    # The fractions module provides support for rational number arithmetic
+    from fractions import Fraction
+
+    # Fraction instance can be constructed from a pair of integers, another
+    # rational number, from a string, float or decimal.Decimal
+    sugar_cups = Fraction('2.5')
+    scale_factor = Fraction(5/8)
+    val2 = sugar_cups * scale_factor
+    print("sugar_cups * scale_factor = ", val2)
+
+    # auto-scaling
+    val3 = Fraction(24, 16)
+    print("Fraction(24, 16) = ", val3)
+
+    # float approximation introduces error
+    val4 = (19/155) * (155/19)
+    print("(19/155) * (155/19) = ", val4)
+    val5 = round(val4, 3)
+    print("round((19/155) * (155/19), 3) = ", val5)
+
+    # Don't compare floating point values for exact equality
+    val6 = 1 - val4
+    print("1 - (19/155) * (155/19) = ", val6)
+
+    # Converting Decimal to float
+    print("float(total_amount) = ", float(total_amount))
+
+    # Converting Fraction to float
+    print("float(sugar_cups * scale_factor) = ", float(sugar_cups * scale_factor))
+
+    # Converting float to Fraction (exposes float truncation error)
+    print("Fraction(19/155) = ", Fraction(19/155))
+
+    # Converting float to Decimal (exposes float truncation error)
+    print("Decimal(19/155) = ", Decimal(19/155))
+
+    # base 10
+    val7 = 8.066e+67
+    print(val7)
+
+    val8 = 6737037547376141/2**53*2**226
+    print(val8)
+
+    import math
+    print("math.frexp(8.066e+67) = ", math.frexp(8.066e+67))
+
+    print("((19/155) * (155/19)) == 1: ", ((19/155) * (155/19)) == 1)
+    print("math.isclose((19/155) * (155/19), 1): ", math.isclose((19/155) * (155/19), 1))
+
+    val9 = math.sqrt(-2)
+    print(val9)
+
+    # support for complex numbers
+    import cmath
+
+    val10 = cmath.sqrt(-2)
+    print(val10)
+
+
 def main():
-    #video_02_creating_meaningful_names_and_using_variables()
-    video_03_working_with_large_and_small_integers()
+    # video_02_creating_meaningful_names_and_using_variables()
+    # video_03_working_with_large_and_small_integers()
+    video_04_choosing_between_float_decimal_and_fraction()
 
 main()
